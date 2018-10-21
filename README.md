@@ -56,6 +56,10 @@ An optional outer indent string can be supplied to `dump()` method. It is
 used internally for nested arrays. It can be anything you want including
 comment prefix `// `.
 
+Notice: The library works only with UTF-8 strings. A string which is not valid
+UTF-8 in source data will encode invalid octets with `\xFF` escape codes. So,
+output dump always should be valid UTF-8 code. 
+
 Installation
 ------------
 

@@ -1,11 +1,16 @@
 <?php
 namespace VovanVE\array_dumper\helpers;
 
+/**
+ * Class StringHelper
+ * @package VovanVE\array_dumper
+ */
 class StringHelper
 {
     /**
-     * @param string $string
-     * @return bool
+     * Checks if a string is valid UTF-8 string
+     * @param string $string Input string to test
+     * @return bool Whether the input string is valid UTF-8 data
      */
     public static function isUtf8String(string $string): bool
     {
@@ -23,8 +28,9 @@ class StringHelper
     }
 
     /**
-     * @param string $string
-     * @return int
+     * Count string length in UTF-8 characters
+     * @param string $string Input string
+     * @return int String length in UTF-8 characters
      */
     public static function lengthUtf8(string $string): int
     {
@@ -32,8 +38,10 @@ class StringHelper
     }
 
     /**
-     * @param string $value
-     * @return string
+     * Dump string to PHP string literal
+     * @param string $value Input string
+     * @return string PHP code of string literal. Doing `eval()` of this
+     * code will return a string identical `===` to input string.
      */
     public static function dumpString(string $value): string
     {
@@ -83,7 +91,7 @@ class StringHelper
 
         // valid UTF-8 string with control ASCII characters
         // also will encode "\xFF" and require <">, but regexp is much simple
-        if (preg_match('/[\\x00-\\x1F\\x7F]/', $value)) {
+        if (\preg_match('/[\\x00-\\x1F\\x7F]/', $value)) {
             return '"' . \preg_replace_callback(
                 '/(["$\\\\])|([\\x00-\\x1F\\x7F])/',
                 /** @uses _escapeStringCallback() */
@@ -103,7 +111,8 @@ class StringHelper
     ];
 
     /**
-     * @param array $match
+     * Internal callback to escape characters
+     * @param array $match A match from `preg_replace_callback()`
      * @return string
      */
     private static function _escapeStringCallback(array $match): string
